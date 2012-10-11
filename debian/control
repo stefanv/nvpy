@@ -1,0 +1,17 @@
+Source: nvpy
+Section: python
+Priority: optional
+Maintainer: Stefan van der Walt <stefan@sun.ac.za>
+Uploaders: Yaroslav Halchenko <debian@onerussian.com>
+Build-Depends: debhelper (>= 7), python, python-setuptools
+Standards-Version: 3.9.3
+X-Python-Version: >= 2.6
+
+Package: nvpy
+Homepage: https://github.com/cpbotha/nvpy
+Architecture: all
+Depends: ${python:Depends}, ${misc:Depends}, python-markdown
+Description: A simplenote-syncing note-taking tool
+ nvpy is a simplenote-syncing note-taking tool inspired by Notational Velocity
+ (and a little bit by nvALT too) on OSX and ResophNotes on Windows. It is
+ significantly uglier, but it is cross-platform.

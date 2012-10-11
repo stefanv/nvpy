@@ -1,0 +1,15 @@
+Author: Charl P. Botha
+Download: https://github.com/cpbotha/nvpy
+
+Files: *
+Copyright: 2012, Charl P. Botha
+License: BSD-3-clause
+
+Files: nvpy/simplenote.py
+Copyright: 2011, Daniel Schauenberg
+License: Expat
+
+Files: nvpy/icons/*
+Copyright: 2012, Cemagraphics
+License: CC-BY-3.0
+Source: http://cemagraphics.deviantart.com/

@@ -1,0 +1,5 @@
+nvpy (0.9.3) unstable; urgency=low
+
+  * Initial release. (Closes: #ITP bug nr)
+
+ -- Stefan van der Walt <stefan@sun.ac.za>  Thu, 11 Oct 2012 01:22:09 -0700

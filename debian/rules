@@ -1,3 +1,9 @@
 #!/usr/bin/make -f
+
 %:
-	dh --with python2 $@
+	dh $@ --with python2 -- --install-lib=/usr/share/nvpy
+
+override_dh_install:
+	dh_install
+	cd $(CURDIR)/debian/nvpy/usr/share/applications && \
+		mv vxlabs-nvpy.desktop nvpy.desktop

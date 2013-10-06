@@ -9,11 +9,9 @@ override_dh_auto_install:
 override_dh_install:
 	dh_install
 	rm -rf debian/nvpy/usr/share/nvpy/*.egg-info
-	cd debian/nvpy/usr/share/applications && \
-		mv vxlabs-nvpy.desktop nvpy.desktop
-	cd debian/nvpy/usr/share/icons/hicolor/256x256/apps/ && \
-		mv nvpy_icon_256x256.png nvpy.png
 	chmod +x debian/nvpy/usr/share/nvpy/nvpy/nvpy.py
+	cd debian/nvpy/usr/share/nvpy/nvpy && \
+		rm -f icons/nvpy.ico icons/README.md nvpy-example.cfg
 
 # Download source
 GIT_REPO ?= https://github.com/cpbotha/nvpy

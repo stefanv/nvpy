@@ -1,9 +1,38 @@
 #!/usr/bin/make -f
 
 %:
-	dh $@ --with python2 -- --install-lib=/usr/share/nvpy
+	dh $@ --with python2
+
+override_dh_auto_install:
+	dh_auto_install -- --install-lib=/usr/share/nvpy
 
 override_dh_install:
 	dh_install
-	cd $(CURDIR)/debian/nvpy/usr/share/applications && \
+	rm -rf debian/nvpy/usr/share/nvpy/*.egg-info
+	cd debian/nvpy/usr/share/applications && \
 		mv vxlabs-nvpy.desktop nvpy.desktop
+	cd debian/nvpy/usr/share/icons/hicolor/256x256/apps/ && \
+		mv nvpy_icon_256x256.png nvpy.png
+	chmod +x debian/nvpy/usr/share/nvpy/nvpy/nvpy.py
+
+# Download source
+GIT_REPO ?= https://github.com/cpbotha/nvpy
+RDATE=$(shell dpkg-parsechangelog | sed -rne 's,^Version: .*\~git([0-9]+).*,\1,p')
+FDATE=$(shell echo $(RDATE) | sed -r 's/([0-9]{4})([0-9]{2})([0-9]{2})/\1-\2-\3/')
+VER=$(shell dpkg-parsechangelog | sed -rne 's,^Version: (.+)-.*,\1,p')
+
+get-packaged-orig-source:
+	@echo "You can build this from a local repo by supplying the GIT_REPO variable"
+	rm -rf nvpy-$(VER).orig
+	git clone $(GIT_REPO) nvpy-$(VER).orig
+ifeq (,$(RDATE))
+	cd nvpy-$(VER).orig && git checkout $(VER)
+else
+	set -e; \
+	cd nvpy-$(VER).orig; \
+	git checkout $$(git rev-list --date-order --until=$(FDATE) master | head -n1)
+endif
+	rm -rf nvpy-$(VER).orig/.git*
+	GZIP=--best tar -cz --owner root --group root --mode a+rX \
+	-f nvpy_$(VER).orig.tar.gz nvpy-$(VER).orig
+	rm -rf nvpy-$(VER).orig

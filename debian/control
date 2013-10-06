@@ -7,9 +7,9 @@ Build-Depends: debhelper (>= 8.1), python, python-setuptools, python-tk
 Standards-Version: 3.9.4
 X-Python-Version: >= 2.6
 VCS-Git: https://github.com/stefanv/nvpy -b debian
+Homepage: https://github.com/cpbotha/nvpy
 
 Package: nvpy
-Homepage: https://github.com/cpbotha/nvpy
 Architecture: all
 Depends: ${python:Depends}, ${misc:Depends}, python-markdown, python-tk
 Description: Simplenote-syncing note-taking tool

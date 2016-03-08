@@ -5,8 +5,9 @@ nvpy (0.9.7-1) unstable; urgency=medium
   * Refresh missing-config-debian-specific-warning patch
   * Remove patches locally after building
   * Update standards version to 3.9.6
+  * Add man page
 
- -- Stefan van der Walt <stefan@sun.ac.za>  Mon, 07 Mar 2016 22:25:46 -0800
+ -- Stefan van der Walt <stefan@sun.ac.za>  Tue, 08 Mar 2016 00:50:06 -0800
 
 nvpy (0.9.5~git20130806-1) unstable; urgency=low
 

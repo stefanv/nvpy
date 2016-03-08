@@ -1,6 +1,6 @@
 --- a/nvpy/nvpy.py
 +++ b/nvpy/nvpy.py
-@@ -309,7 +309,7 @@
+@@ -321,7 +321,7 @@
      def main_loop(self):
          if not self.config.files_read:
              self.view.show_warning('No config file',

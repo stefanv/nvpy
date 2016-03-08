@@ -1,0 +1,11 @@
+--- a/nvpy/nvpy.py
++++ b/nvpy/nvpy.py
+@@ -321,7 +321,7 @@
+     def main_loop(self):
+         if not self.config.files_read:
+             self.view.show_warning('No config file',
+-                                  'Could not read any configuration files. See https://github.com/cpbotha/nvpy for details.')
++                                   'Could not read any configuration files. See /usr/share/doc/nvpy/examples/nvpy-example.cfg')
+ 
+         elif not self.config.ok:
+             wmsg = ('Please rename [default] to [nvpy] in %s. ' + \

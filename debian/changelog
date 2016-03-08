@@ -4,6 +4,7 @@ nvpy (0.9.7-1) unstable; urgency=medium
   * Add gbp configuration with upstream release tag
   * Refresh missing-config-debian-specific-warning patch
   * Remove patches locally after building
+  * Update standards version to 3.9.6
 
  -- Stefan van der Walt <stefan@sun.ac.za>  Mon, 07 Mar 2016 22:25:46 -0800
 

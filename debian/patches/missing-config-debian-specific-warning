@@ -1,3 +1,8 @@
+Description: Upon missing config, redirect user to local example
+Author: Stefan van der Walt <stefanv@berkeley.edu>
+Forwarded: not-needed
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 --- a/nvpy/nvpy.py
 +++ b/nvpy/nvpy.py
 @@ -321,7 +321,7 @@

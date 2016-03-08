@@ -25,9 +25,9 @@ and it hasn't disappointed me (yet).
 Screenshots and screencasts
 ===========================
 
-* Screenshot taken shortly after 0.9.3 release:
+* Screenshot taken shortly before the 0.9.7 release (clam theme, droid font):
 
-.. image:: https://lh4.googleusercontent.com/-ASCgH2VhYmc/UIOlIWLvYVI/AAAAAAAAQ8s/0ccEQLHXKIg/s800/nvpy_post_0.9.2_screenshot.png
+.. image:: https://lh3.googleusercontent.com/DvOXzSgUnzO_kUiKS8UdcF0F9DsF3v6MBRCiUMIT472FtSvlMGqU3AEr1XwT2ERmTQh5RcKraZvdtnnScWhtqZlQd-KQDnVwmbTtPWx8uWpAI1OJHsf0fhXlbB5rRnp2iakM7xwi1IO4_-CWno4LRIqsTf7g5Bvu6BogQshWeAYyZQlsn7i5vD7OqljS7UcEc9EcQy2WLao0uiWCB38RVWSaq4eWFWxJnxV_MaFV5fs9lTvkGC78pq9u2Z4-eTdjqzj6X-ZzLOPZTQZc7g-pyTkFIIa2_pZNUBW0-y1IqYJxM4eDLYcu6PPt4VlHPCN9rvkLN6xYUJLdaz0SIo8X9ezPLHvIuI41SiiIn1wZnrr9rfgFGocstzOMt-A5QzZ8gTkXuAHucrZdmg5Xe4upqvCZGztpc4bgwEyvx132Ua4Zk2utBUgLAh3rp3D1GR0J5R_-W0iBJsn2gsQaFGUJf4zB-bD6HszWkTJ7AAcV0TogR4CQE1757tcZIKPxdOPSwFuMGGq-xeIhHYyGa7dYE_xbkhqIeE3AIpJ7dRpTN5AxIlTzQg5WYF8TEw7pdu6P9YpYcw=w873-h470-no
 
 * Screencast of nvpy's inter-note linking (May 27, 2012): http://youtu.be/NXuVMZr31SI
 * Screencast of nvpy's gstyle search mode (October 18, 2012): http://youtu.be/dzILoLC5vRM
@@ -49,7 +49,7 @@ nvPY works best on Python 2.7.x. It does not work on Python 3.x yet.
 
 To install the latest development version from github, do::
 
-    pip install git+https://github.com/cpbotha/nvpy.git#egg=nvpy
+    pip install 'git+https://github.com/cpbotha/nvpy.git#egg=nvpy'
 
 OR, to install the version currently on pypi, do::
 
@@ -58,7 +58,7 @@ OR, to install the version currently on pypi, do::
 If already have nvpy installed, but you want to upgrade, try the following::
 
     sudo pip uninstall nvpy
-    sudo pip install --upgrade --ignore-installed --no-deps nvpy
+    sudo pip install --upgrade nvpy
 
 OR, you can of course use easy\_install instead::
 
@@ -87,7 +87,26 @@ are much faster as it uses the database it stores in your home directory.
 If you prefer to run from your git clone, you can just invoke python on nvpy.py, or on the nvpy package directory.
 
 The `example nvpy.cfg <https://github.com/cpbotha/nvpy/blob/master/nvpy/nvpy-example.cfg>`_ shows how you can configure the font 
-family and size, configure nvpy to save and load notes as clear text, disable simplenote syncing, and so forth.
+family and size, the widget theme (!) configure nvpy to save and load notes as clear text, disable simplenote syncing, and so forth.
+
+Making nvpy slightly less ugly on Linux
+=======================================
+
+On Linux, I set the nvpy ttk theme to ``clam`` (instead of ``default``; the example
+config above has more information about themes), and I select nicer fonts. The
+relevant config options are as follows::
+
+    theme = clam
+    font_family = droid sans mono
+    font_size = 12
+    list_font_size = 12
+
+On Debian systems, you have to install the ``fonts-droid`` package to be able to
+select the attractive ``droid sans mono`` font. ``ubuntu mono`` is also good and
+should work out of the box on Ubuntu installations.
+
+Let us know on the Google group if you have suggestions for further decreasing
+the level of ugliness!
 
 Keyboard handling
 =================
@@ -160,6 +179,8 @@ Features
 Planned features
 ================
 
+* Port to Python 3.
+* sqlite storage backend.
 * Full(ish) screen mode.
 * Full syncs also in background thread. At the moment does a full sync
   at startup, which can take a while. nvpy already does background thread
@@ -181,5 +202,14 @@ Credits
 * Sjaak Westdijk made significant contributions to the code starting after the 0.8.5 release.
 * nvpy uses the `fantastic simplenote.py library by mrtazz <https://github.com/mrtazz/simplenote.py>`_.
 * The brilliant application icon, a blue mini car (not as fast as the notational velocity rocket, get it?), is by `Cemagraphics <http://cemagraphics.deviantart.com/>`_.
-* Thanks for the tips! stfa and https://github.com/gudnm
+* Thank you very much peeps for the PayPal tips!
+  * stfa
+  * https://github.com/gudnm
+  * stephen powell
+  * Robert Munger
+  * Jordan McCommons
 
+Running Tests
+=============
+
+PYTHONPATH=.:$PYTHONPATH python -m unittest discover -s tests -p '*.py'

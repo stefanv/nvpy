@@ -2,3 +2,5 @@
 /build/
 /debian/.*
 **/*.pyc
+*.project
+*.pydevproject

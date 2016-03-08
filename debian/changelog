@@ -1,12 +1,10 @@
 nvpy (0.9.7-1) unstable; urgency=medium
 
   * New upstream release
-  * Correct location of icon
-  * Direct user to local example config if none found
   * Add gbp configuration with upstream release tag
   * Refresh missing-config-debian-specific-warning patch
 
- -- Stefan van der Walt <stefan@sun.ac.za>  Mon, 07 Mar 2016 21:41:05 -0800
+ -- Stefan van der Walt <stefan@sun.ac.za>  Mon, 07 Mar 2016 22:25:46 -0800
 
 nvpy (0.9.5~git20130806-1) unstable; urgency=low
 

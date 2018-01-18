@@ -1,11 +1,11 @@
 Source: nvpy
 Section: contrib/utils
 Priority: optional
-Maintainer: Stefan van der Walt <stefan@sun.ac.za>
+Maintainer: Stefan van der Walt <stefanv@berkeley.edu>
 Uploaders: Yaroslav Halchenko <debian@onerussian.com>
-Build-Depends: debhelper (>= 8.1), python, python-setuptools, python-tk
+Build-Depends: debhelper (>= 8.1), python, python-setuptools, python-tk, python-markdown
 Standards-Version: 3.9.6
-X-Python-Version: >= 2.6
+X-Python-Version: >= 2.7
 VCS-Git: https://github.com/stefanv/nvpy -b debian
 Homepage: https://github.com/cpbotha/nvpy
 

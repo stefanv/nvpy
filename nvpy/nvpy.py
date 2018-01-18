@@ -39,6 +39,9 @@ import argparse
 import os
 import sys
 import time
+import traceback
+import threading
+import re
 
 from utils import KeyValueObject, SubjectMixin
 import view
@@ -59,7 +62,7 @@ except ImportError:
 else:
     HAVE_DOCUTILS = True
 
-VERSION = "0.9.7"
+VERSION = "1.0.0"
 
 
 class Config:
@@ -100,10 +103,16 @@ class Config:
                     'sn_username': '',
                     'sn_password': '',
                     'simplenote_sync': '1',
+                    'background_full_sync': 'true',
                     'debug': '1',
                     # Filename or filepath to a css file used style the rendered
                     # output; e.g. nvpy.css or /path/to/my.css
                     'rest_css_path': None,
+                    'md_css_path': None,
+                    'md_extensions': '',
+                    'keep_search_keyword': 'false',
+                    'confirm_delete': 'true',
+                    'confirm_exit': 'false',
                    }
 
         # parse command-line arguments
@@ -140,6 +149,7 @@ class Config:
         self.sn_username = cp.get(cfg_sec, 'sn_username', raw=True)
         self.sn_password = cp.get(cfg_sec, 'sn_password', raw=True)
         self.simplenote_sync = cp.getint(cfg_sec, 'simplenote_sync')
+        self.background_full_sync = cp.get(cfg_sec, 'background_full_sync')
         # make logic to find in $HOME if not set
         self.db_path = cp.get(cfg_sec, 'db_path')
         #  0 = alpha sort, 1 = last modified first
@@ -167,7 +177,12 @@ class Config:
         self.background_color = cp.get(cfg_sec, 'background_color')
 
         self.rest_css_path = cp.get(cfg_sec, 'rest_css_path')
+        self.md_css_path = cp.get(cfg_sec, 'md_css_path')
+        self.md_extensions = cp.get(cfg_sec, 'md_extensions')
         self.debug = cp.getint(cfg_sec, 'debug')
+        self.keep_search_keyword = cp.getboolean(cfg_sec, 'keep_search_keyword')
+        self.confirm_delete = cp.getboolean(cfg_sec, 'confirm_delete')
+        self.confirm_exit = cp.getboolean(cfg_sec, 'confirm_exit')
 
     def parse_cmd_line_opts(self):
         if __name__ != '__main__':
@@ -211,6 +226,8 @@ class Controller:
     """
 
     def __init__(self, config):
+        SubjectMixin.MAIN_THREAD = threading.current_thread()
+
         # should probably also look in $HOME
         self.config = config
         self.config.app_version = VERSION
@@ -240,16 +257,28 @@ class Controller:
         if self.config.sn_username == '':
             self.config.simplenote_sync = 0
 
-        css = self.config.rest_css_path
-        if css:
-            if css.startswith("~/"):
+        rst_css = self.config.rest_css_path
+        if rst_css:
+            if rst_css.startswith("~/"):
                 # On Mac, paths that start with '~/' aren't found by path.exists
-                css = css.replace(
+                rst_css = rst_css.replace(
                     "~", os.path.abspath(os.path.expanduser('~')), 1)
-                self.config.rest_css_path = css
-            if not os.path.exists(css):
+                self.config.rest_css_path = rst_css
+            if not os.path.exists(rst_css):
                 # Couldn't find the user-defined css file. Use docutils css instead.
                 self.config.rest_css_path = None
+        md_css = self.config.md_css_path
+        if md_css:
+            if md_css.startswith("~/"):
+                # On Mac, paths that start with '~/' aren't found by path.exists
+                md_css = md_css.replace(
+                    "~", os.path.abspath(os.path.expanduser('~')), 1)
+                self.config.md_css_path = md_css
+            if not os.path.exists(md_css):
+                # Couldn't find the user-defined css file.
+                # Do not use css styling for markdown.
+                self.config.md_css_path = None
+
 
         self.notes_list_model = NotesListModel()
         # create the interface
@@ -270,7 +299,8 @@ class Controller:
 
         if self.config.simplenote_sync:
             self.notes_db.add_observer('progress:sync_full', self.observer_notes_db_sync_full)
-            self.sync_full()
+            self.notes_db.add_observer('error:sync_full', self.observer_notes_db_error_sync_full)
+            self.notes_db.add_observer('complete:sync_full', self.observer_notes_db_complete_sync_full)
 
         # we want to be notified when the user does stuff
         self.view.add_observer('click:notelink',
@@ -312,6 +342,9 @@ class Controller:
         self.selected_note_idx = -1
         self.view.select_note(0)
 
+        if self.config.background_full_sync:
+            self.view.after(0, self.sync_full)
+
     def get_selected_note_key(self):
         if self.selected_note_idx >= 0:
             return self.notes_list_model.list[self.selected_note_idx].key
@@ -329,6 +362,11 @@ class Controller:
             (str(self.config.files_read),)
             self.view.show_warning('Rename config section', wmsg)
 
+        def poll_notifies():
+            self.view.after(100, poll_notifies)
+            self.notes_db.handle_notifies()
+
+        self.view.after(0, poll_notifies)
         self.view.main_loop()
 
     def observer_notes_db_change_note_status(self, notes_db, evt_type, evt):
@@ -339,6 +377,43 @@ class Controller:
     def observer_notes_db_sync_full(self, notes_db, evt_type, evt):
         logging.debug(evt.msg)
         self.view.set_status_text(evt.msg)
+
+        # regenerate display list
+        # reselect old selection
+        # put cursor where it used to be.
+        self.view.refresh_notes_list()
+
+        # change status to "Full syncing"
+        self.update_note_status()
+
+    def observer_notes_db_error_sync_full(self, notes_db, evt_type, evt):
+        try:
+            raise evt.error
+        except SyncError, e:
+            self.view.show_error('Sync error', e)
+        except WriteError, e:
+            emsg = "Please check nvpy.log.\n" + str(e)
+            self.view.show_error('Sync error', emsg)
+            exit(1)
+        except Exception, e:
+            crash_log = ''.join(traceback.format_exception(*evt.exc_info))
+            logging.error(crash_log)
+            emsg = 'An unexpected error has occurred.\n'\
+                   'Please check nvpy.log.\n' \
+                   + repr(e)
+            self.view.show_error('Sync error', emsg)
+            exit(1)
+
+        # return normal status from "Full syning".
+        self.update_note_status()
+
+    def observer_notes_db_complete_sync_full(self, notes_db, evt_type, evt):
+        sync_from_server_errors = evt.errors
+        if sync_from_server_errors > 0:
+            self.view.show_error('Error syncing notes from server', 'Error syncing %d notes from server. Please check nvpy.log for details.' % (sync_from_server_errors,))
+
+        # return normal status from "Full syning".
+        self.update_note_status()
 
     def observer_notes_db_synced_note(self, notes_db, evt_type, evt):
         """This observer gets called only when a note returns from
@@ -356,6 +431,7 @@ class Controller:
                 # can undo synced back changes if they would want to.
                 self.view.set_note_data(selected_note_o.note, reset_undo=False)
                 self.view.unmute_note_data_changes()
+        self.view.refresh_notes_list()
 
     def observer_view_click_notelink(self, view, evt_type, note_name):
         # find note_name in titles, try to jump to that note
@@ -400,8 +476,14 @@ class Controller:
             logging.debug("Trying to convert %s to html." % (key,))
             if HAVE_MARKDOWN:
                 logging.debug("Convert note %s to html." % (key,))
-                html = markdown.markdown(c)
+                exts = re.split("\\s", self.config.md_extensions.strip()) if self.config.md_extensions else []
+                html = markdown.markdown(c, extensions=exts)
                 logging.debug("Convert done.")
+                if self.config.md_css_path:
+                    css = u"""<link rel="stylesheet" href="%s">""" % (self.config.md_css_path,)
+                    html = u"""<div class="markdown-body">%s</div>""" % (html,)
+                else:
+                    css = u""""""
 
             else:
                 logging.debug("Markdown not installed.")
@@ -416,12 +498,15 @@ class Controller:
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 %s
+%s
 </head>
 <body>
 %s
 </body>
 </html>
-            """ % ('<meta http-equiv="refresh" content="5">' if self.view.get_continuous_rendering() else "",html,)
+            """ % ('<meta http-equiv="refresh" content="5">' if self.view.get_continuous_rendering() else "",
+                   css if self.config.md_css_path else "",
+                   html,)
             f.write(s)
             f.close()
             return fn
@@ -646,13 +731,21 @@ class Controller:
                 self.view.close()
 
         else:
+            if self.config.confirm_exit:
+                msg = "Do you want to exit?"
+                if not self.view.askyesno('Confirm exit', msg):
+                    return
+
             self.view.close()
 
     def observer_view_create_note(self, view, evt_type, evt):
         # create the note
         new_key = self.notes_db.create_note(evt.title)
         # clear the search entry, this should trigger a new list being returned
-        self.view.set_search_entry_text('')
+        keyword = ''
+        if self.config.keep_search_keyword:
+            keyword = self.view.get_search_entry_text()
+        self.view.set_search_entry_text(keyword)
         # we should focus on our thingy
         idx = self.notes_list_model.get_idx(new_key)
         self.view.select_note(idx)
@@ -694,24 +787,14 @@ class Controller:
         self.view.unmute_note_data_changes()
 
     def sync_full(self):
-        try:
-            sync_from_server_errors = self.notes_db.sync_full()
-
-        except SyncError, e:
-            self.view.show_error('Sync error', e)
-        except WriteError, e:
-            emsg = "Please check nvpy.log.\n" + str(e)
-            self.view.show_error('Sync error', emsg)
-            exit(1)
-
+        if self.config.background_full_sync:
+            self.notes_db.sync_full_threaded()
         else:
-            # regenerate display list
-            # reselect old selection
-            # put cursor where it used to be.
-            self.view.refresh_notes_list()
+            self.notes_db.sync_full_unthreaded()
 
-            if sync_from_server_errors > 0:
-                self.view.show_error('Error syncing notes from server', 'Error syncing %d notes from server. Please check nvpy.log for details.' % (sync_from_server_errors,))
+    def update_note_status(self):
+        skey = self.get_selected_note_key()
+        self.view.set_note_status(self.notes_db.get_note_status(skey))
 
 
 def main():

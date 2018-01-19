@@ -1,5 +1,7 @@
 nvpy (1.0.0+git20171203.c91062c-1) UNRELEASED; urgency=low
 
+  * Override lintian warning debian-watch-may-check-gpg-signature
+  * Override lintian warning testsuite-autopkgtest-missing
   * Update maintainer email address
   * Update standards version to 4.1.3
   * Update compat to debhelper 11

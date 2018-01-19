@@ -1,8 +1,9 @@
-nvpy (1.0.0-1) UNRELEASED; urgency=low
+nvpy (1.0.0+git20171203.c91062c-1) UNRELEASED; urgency=low
 
-    * New upstream release
-    * Update maintainer email address
-    * Update compat to debhelper 10
+  * Include fixes from master branch
+  * New upstream release
+  * Update maintainer email address
+  * Update compat to debhelper 10
 
  -- Stefan van der Walt <stefanv@berkeley.edu>  Thu, 18 Jan 2018 01:05:28 -0800
 

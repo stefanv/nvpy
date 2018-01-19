@@ -2,6 +2,7 @@ nvpy (1.0.0-1) UNRELEASED; urgency=low
 
     * New upstream release
     * Update maintainer email address
+    * Update compat to debhelper 10
 
  -- Stefan van der Walt <stefanv@berkeley.edu>  Thu, 18 Jan 2018 01:05:28 -0800
 

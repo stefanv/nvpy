@@ -1,2 +1,3 @@
 version=3
-https://pypi.python.org/packages/source/n/nvpy/nvpy-(.*).tar.gz
+opts=filenamemangle=s/.+\/v?(\d\S+)\.tar\.gz/nvpy-$1\.tar\.gz/ \
+  https://github.com/cpbotha/nvpy/tags .*/v?(\d\S+)\.tar\.gz

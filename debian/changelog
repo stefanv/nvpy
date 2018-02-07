@@ -1,7 +1,7 @@
 nvpy (1.0.0+git20171203.c91062c-1) unstable; urgency=low
 
   * Fix watch file
-  * Override lintian warning debian-watch-may-check-gpg-signature
+  * Override lintian warning debian-watch-does-not-check-gpg-signature
   * Override lintian warning testsuite-autopkgtest-missing
   * Update maintainer email address
   * Update standards version to 4.1.3

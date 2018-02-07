@@ -1,2 +1,2 @@
 nvpy source: testsuite-autopkgtest-missing
-nvpy source: debian-watch-may-check-gpg-signature
+nvpy source: debian-watch-does-not-check-gpg-signature

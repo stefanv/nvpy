@@ -2,6 +2,7 @@ nvpy (2.0.0-1) unstable; urgency=medium
 
   * New upstream release
   * Refresh all patches
+  * Add yapf3 code formatter as build dependency
   * Set debhelper to v9 in control to match specified requirement
 
  -- Stefan van der Walt <stefanv@berkeley.edu>  Thu, 19 Sep 2019 16:31:56 -0700

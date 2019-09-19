@@ -1,0 +1,21 @@
+From: Stefan van der Walt <stefanv@berkeley.edu>
+Date: Thu, 19 Sep 2019 17:00:57 -0700
+Subject: Call correct yapf binary
+
+---
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index 1525595..1ea4064 100644
+--- a/Makefile
++++ b/Makefile
+@@ -3,7 +3,7 @@ all: format test
+ 
+ .PHONY: format
+ format:
+-	yapf -r -p -i .
++	yapf3 -r -p -i .
+ 
+ .PHONY: test
+ test:

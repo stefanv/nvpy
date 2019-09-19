@@ -1,2 +1,3 @@
 0001-Refer-to-a-relative-icon-path-in-the-desktop-entry.patch
 0002-Upon-missing-config-redirect-user-to-local-example.patch
+0003-Call-correct-yapf-binary.patch

@@ -1,2 +1,2 @@
-desktop-icon-path
-missing-config-debian-specific-warning
+0001-Refer-to-a-relative-icon-path-in-the-desktop-entry.patch
+0002-Upon-missing-config-redirect-user-to-local-example.patch

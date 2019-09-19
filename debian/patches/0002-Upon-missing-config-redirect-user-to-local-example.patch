@@ -1,0 +1,21 @@
+From: Stefan van der Walt <stefanv@berkeley.edu>
+Date: Thu, 19 Sep 2019 16:46:14 -0700
+Subject: Upon missing config, redirect user to local example
+
+---
+ nvpy/nvpy.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/nvpy/nvpy.py b/nvpy/nvpy.py
+index e7ffc7f..b2f5544 100644
+--- a/nvpy/nvpy.py
++++ b/nvpy/nvpy.py
+@@ -411,7 +411,7 @@ class Controller:
+         if not self.config.files_read:
+             self.view.show_warning(
+                 'No config file',
+-                'Could not read any configuration files. See https://github.com/cpbotha/nvpy for details.')
++                'Could not read any configuration files. See /usr/share/doc/nvpy/examples/nvpy-example.cfg')
+ 
+         elif not self.config.ok:
+             wmsg = ('Please rename [default] to [nvpy] in %s. ' + \

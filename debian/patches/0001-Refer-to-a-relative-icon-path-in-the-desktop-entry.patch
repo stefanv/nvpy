@@ -1,0 +1,21 @@
+From: Stefan van der Walt <stefanv@berkeley.edu>
+Date: Thu, 19 Sep 2019 16:44:50 -0700
+Subject: Refer to a relative icon path in the desktop entry
+
+---
+ nvpy/vxlabs-nvpy.desktop | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/nvpy/vxlabs-nvpy.desktop b/nvpy/vxlabs-nvpy.desktop
+index 82389c6..f0ec45c 100644
+--- a/nvpy/vxlabs-nvpy.desktop
++++ b/nvpy/vxlabs-nvpy.desktop
+@@ -11,7 +11,7 @@ Type=Application
+ Name=nvPY
+ Comment=Cross-platform simplenote-syncing note-taking tool
+ Exec=nvpy
+-Icon=/usr/local/lib/python3.7/dist-packages/nvpy/icons/nvpy.gif
++Icon=nvpy
+ Categories=Utility;
+ Terminal=false
+ StartupNotify=true

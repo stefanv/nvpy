@@ -1,6 +1,9 @@
+#!/usr/bin/env python3
+
 import os
 from setuptools import setup
-from nvpy import nvpy
+import nvpy
+
 
 # Utility function to read the README file.
 # Used for the long_description.  It's nice, because now 1) we have a top level
@@ -8,6 +11,7 @@ from nvpy import nvpy
 # string in below ...
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
+
 
 setup(
     name="nvpy",
@@ -20,19 +24,31 @@ setup(
     url="https://github.com/cpbotha/nvpy",
     packages=['nvpy'],
     long_description=read('README.rst'),
-    # these are in reality not hard requirements of nvpy
-    install_requires=['Markdown', 'docutils'],
-    entry_points={
-        'gui_scripts': ['nvpy = nvpy.nvpy:main']
+    install_requires=[
+        # These are in reality not hard requirements of nvpy.  If these packages are not installed,
+        # the Markdown/reStructuredText rendering feature will not work.  But basic functions should work.
+        'Markdown',
+        'docutils',
+        # This is hard requirements of nvpy.
+        'simplenote>=2.1.2',
+    ],
+    extras_require={
+        # development and test requirements.
+        'dev': ['mock', 'yapf'],
     },
+    entry_points={'gui_scripts': ['nvpy = nvpy.nvpy:main']},
     # use MANIFEST.in file
     # because package_data is ignored during sdist
     include_package_data=True,
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        # See https://pypi.org/classifiers/
+        "Development Status :: 5 - Production/Stable",
         "Environment :: X11 Applications",
         "Environment :: MacOS X",
         "Environment :: Win32 (MS Windows)",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
         "Topic :: Utilities",
         "License :: OSI Approved :: BSD License",
     ],

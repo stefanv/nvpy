@@ -8,3 +8,4 @@
 build/
 dist/
 nvpy.egg-info/
+.eggs/

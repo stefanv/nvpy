@@ -45,7 +45,7 @@ A note on automatic syncing
 Installation
 ============
 
-nvPY works best on Python 2.7.x. It does not work on Python 3.x yet.
+nvPY works best on Python 3.6 or later.  If you want to work on python 2.7, please use nvPY v1.2.x.
 
 To install the latest development version from github, do::
 
@@ -107,6 +107,48 @@ should work out of the box on Ubuntu installations.
 
 Let us know on the Google group if you have suggestions for further decreasing
 the level of ugliness!
+
+Theme Customization
+===================
+
+nvPY was prepared two themes.  You can apply it by editing `nvpy.cfg`.
+
+**Light Theme**: ::
+
+    # Colors (light theme)
+    text_color = black
+    selected_note_color = light blue
+    note_info_color = dark gray
+    highlight_note_info_color = light yellow
+    url_color = blue
+    background_color = white
+    highlight_background_color = yellow
+
+.. image:: ./images/light-theme.png
+
+**Dark Theme**: ::
+
+    # Colors (dark theme)
+    text_color = white
+    selected_note_color = #04a
+    note_info_color = light gray
+    highlight_note_info_color = #440
+    url_color = #08f
+    background_color = black
+    highlight_background_color = #440
+
+.. image:: ./images/dark-theme.png
+
+If you dont like it, it would be better to customize the theme as your like.
+Let's change some options based on the above theme.
+Options are accept 3 formats:
+
+* Hex triplet format (#rrggbb)
+* Shorthand hex triplet format (#rgb)
+* Color names  (See `color names list <https://www.tcl.tk/man/tcl8.5/TkCmd/colors.htm>`_ and `color chart <https://wiki.tcl.tk/37701>`_)
+
+Note: during customizing the theme we highly recommend setting ``simplenote_sync = 0`` to disable sync.
+Because prevent reach the API rate limit by automatic full synchronization at startup.
 
 Keyboard handling
 =================
@@ -179,7 +221,6 @@ Features
 Planned features
 ================
 
-* Port to Python 3.
 * sqlite storage backend.
 * Full(ish) screen mode.
 * Prettiness.
@@ -210,4 +251,8 @@ Credits
 Running Tests
 =============
 
-PYTHONPATH=.:$PYTHONPATH python -m unittest discover -s tests -p '*.py'
+Run the following command. ::
+
+    make test
+
+NOTE: While test cases are running, the nvpy window is displayed many times.  It will impede your work.

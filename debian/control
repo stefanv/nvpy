@@ -3,15 +3,14 @@ Section: contrib/utils
 Priority: optional
 Maintainer: Stefan van der Walt <stefanv@berkeley.edu>
 Uploaders: Yaroslav Halchenko <debian@onerussian.com>
-Build-Depends: debhelper (>= 9), python, python-setuptools, python-tk, python-markdown, yapf3
+Build-Depends: debhelper (>= 12), python3-setuptools, yapf3
 Standards-Version: 4.1.3
-X-Python-Version: >= 2.7
 VCS-Git: https://github.com/stefanv/nvpy -b debian
 Homepage: https://github.com/cpbotha/nvpy
 
 Package: nvpy
 Architecture: all
-Depends: ${python:Depends}, ${misc:Depends}, python-markdown, python-tk
+Depends: ${python3:Depends}, ${misc:Depends}, python3-markdown, python3-tk, python3-simplenote
 Description: Simplenote-syncing note-taking tool
  nvpy is a simplenote-syncing note-taking tool inspired by Notational Velocity
  (and a little bit by nvALT too) on OSX and ResophNotes on Windows. It is

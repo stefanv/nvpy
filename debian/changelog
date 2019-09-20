@@ -1,6 +1,7 @@
 nvpy (2.0.0-1) unstable; urgency=medium
 
   * New upstream release
+  * Add dependency on python3-simplenote
   * Refresh all patches
   * Add yapf3 code formatter as build dependency
   * Set debhelper to v9 in control to match specified requirement

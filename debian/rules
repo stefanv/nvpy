@@ -1,5 +1,6 @@
 #!/usr/bin/make -f
 
+export PYBUILD_NAME=nvpy
 export PYBUILD_INSTALL_ARGS=--install-lib=/usr/share/nvpy/
 
 %:
@@ -10,4 +11,4 @@ override_dh_install:
 	rm -rf debian/nvpy/usr/share/nvpy/*.egg-info
 	chmod +x debian/nvpy/usr/share/nvpy/nvpy/nvpy.py
 	cd debian/nvpy/usr/share/nvpy/nvpy && \
-		rm -f icons/nvpy.ico icons/README.md nvpy-example.cfg
+	rm -f icons/nvpy.ico icons/README.md nvpy-example.cfg

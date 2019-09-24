@@ -19,5 +19,6 @@ override_dh_install:
 	cp start-nvpy.py $(BIN)/nvpy
 	chmod +x $(BIN)/nvpy
 	rm -rf $(SHARE)/*.egg-info
-	cd $(SHARE)/nvpy && \
-	  rm -f icons/nvpy.ico icons/README.md nvpy-example.cfg
+	rm $(SHARE)/nvpy/nvpy-example.cfg
+	cd $(SHARE)/nvpy/icons && \
+	  rm -f nvpy.ico nvpy.icns README.md

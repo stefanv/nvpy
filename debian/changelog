@@ -8,6 +8,7 @@ nvpy (2.0.0-1) unstable; urgency=medium
   * Add Vcs-Browser
   * Remove simplenote.py from copyright (now external package)
   * Update standards version
+  * Use /usr/bin/python3 to launch script
 
  -- Stefan van der Walt <stefanv@berkeley.edu>  Thu, 19 Sep 2019 16:31:56 -0700
 

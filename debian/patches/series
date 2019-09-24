@@ -1,3 +1,4 @@
 0001-Refer-to-a-relative-icon-path-in-the-desktop-entry.patch
 0002-Upon-missing-config-redirect-user-to-local-example.patch
 0003-Call-correct-yapf-binary.patch
+0004-Set-correct-nvpy-path-in-launch-script.patch

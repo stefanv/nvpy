@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Stefan van der Walt <stefanv@berkeley.edu>
 Uploaders: Yaroslav Halchenko <debian@onerussian.com>
 Build-Depends: debhelper (>= 12), python3, dh-python, python3-setuptools, yapf3
-Standards-Version: 4.3.0
+Standards-Version: 4.4.0
 Vcs-Git: https://github.com/stefanv/nvpy -b debian
 Vcs-Browser: https://github.com/stefanv/nvpy/tree/debian
 Homepage: https://github.com/cpbotha/nvpy

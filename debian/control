@@ -1,5 +1,5 @@
 Source: nvpy
-Section: contrib/utils
+Section: utils
 Priority: optional
 Maintainer: Stefan van der Walt <stefanv@berkeley.edu>
 Uploaders: Yaroslav Halchenko <debian@onerussian.com>

@@ -3,6 +3,10 @@
 export PYBUILD_NAME=nvpy
 export PYBUILD_INSTALL_ARGS=--install-lib=/usr/share/nvpy/
 
+BUILD_DIR=debian/nvpy
+BIN=$(BUILD_DIR)/usr/bin
+SHARE=$(BUILD_DIR)/usr/share/nvpy
+
 %:
 	dh $@ --with python3 --buildsystem=pybuild
 
@@ -11,7 +15,9 @@ override_dh_python3:
 
 override_dh_install:
 	dh_install
-	rm -rf debian/nvpy/usr/share/nvpy/*.egg-info
-	chmod +x debian/nvpy/usr/share/nvpy/nvpy/nvpy.py
-	cd debian/nvpy/usr/share/nvpy/nvpy && \
-	rm -f icons/nvpy.ico icons/README.md nvpy-example.cfg
+	mkdir -p $(BIN)
+	cp start-nvpy.py $(BIN)/nvpy
+	chmod +x $(BIN)/nvpy
+	rm -rf $(SHARE)/*.egg-info
+	cd $(SHARE)/nvpy && \
+	  rm -f icons/nvpy.ico icons/README.md nvpy-example.cfg

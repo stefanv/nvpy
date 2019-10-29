@@ -6,6 +6,8 @@ Source: https://github.com/cpbotha/nvpy
 Files: *
 Copyright: 2012, Charl P. Botha
 License: BSD-3-clause
+
+License: BSD-3-clause
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -302,3 +304,6 @@ License: CC-BY-3.0
       the License; this License is not intended to restrict the license of any
       rights under applicable law.
 
+Files: debian/*
+Copyright: 2019 Stéfan van der Walt
+License: BSD-3-clause

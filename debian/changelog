@@ -12,6 +12,8 @@ nvpy (2.0.0-1) unstable; urgency=medium
   * Change section to utils: does not depend on non-free software
   * Use start-nvpy.py script to launch, after setting path
   * Remove unused files in from nvpy/icons
+  * Add copyright for debian files
+  * Change compatibility to 10, to allow backports to older systems
 
  -- Stefan van der Walt <stefanv@berkeley.edu>  Thu, 19 Sep 2019 16:31:56 -0700
 
